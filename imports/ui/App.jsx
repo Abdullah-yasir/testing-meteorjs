@@ -61,7 +61,10 @@ export const App = () => {
         {user ? (
           <>
             <div className="user" onClick={logout}>
-              {user.username} 🚪
+              {user.username ||
+                user.profile.name ||
+                user.services.github.username}
+              🚪
             </div>
             <TaskForm user={user} />
 

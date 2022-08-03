@@ -42,8 +42,8 @@ ServiceConfiguration.configurations.upsert(
   {
     $set: {
       loginStyle: 'popup',
-      clientId: 'c1dba154880cad0732a1', // insert your clientId here
-      secret: 'e61e3438c752388e1ceb2385593cfd6c3ec0be47', // insert your secret here
+      clientId: process.env.GITHUB_CLIENT_ID, // insert your clientId here
+      secret: process.env.GITHUB_CLIENT_SECRET, // insert your secret here
     },
   }
 )

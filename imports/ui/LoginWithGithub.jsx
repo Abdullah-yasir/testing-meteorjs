@@ -3,10 +3,15 @@ import { Meteor } from 'meteor/meteor'
 
 export const LoginWithGithub = () => {
   const handleGithubLogin = () => {
-    Meteor.loginWithGithub({
-      requestPermissions: ['user'],
-      loginStyle: 'popup',
-    })
+    Meteor.loginWithGithub(
+      {
+        requestPermissions: ['user'],
+        loginStyle: 'popup',
+      },
+      err => {
+        err && console.log('unable to login with github', err)
+      }
+    )
   }
 
   return (

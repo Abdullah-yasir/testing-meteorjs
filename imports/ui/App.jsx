@@ -4,6 +4,7 @@ import { TasksCollection } from '../api/TasksCollection.js'
 
 import { Task } from './Task.jsx'
 import { TaskForm } from './TaskForm.jsx'
+import { LoginForm } from './LoginForm'
 
 const toggleChecked = ({ _id, isChecked }) => {
   TasksCollection.update(_id, {
@@ -19,6 +20,7 @@ export const App = () => {
   const [hideCompleted, setHideCompleted] = useState(false)
   const hideCompletedFilter = { isChecked: { $ne: true } }
 
+  const user = useTracker(() => Meteor.user())
   const tasks = useTracker(() =>
     TasksCollection.find(hideCompleted ? hideCompletedFilter : {}, {
       sort: { createdAt: -1 },
@@ -44,22 +46,30 @@ export const App = () => {
       </header>
 
       <div className="main">
-        <TaskForm />
-        <div className="filter">
-          <button onClick={() => setHideCompleted(!hideCompleted)}>
-            {hideCompleted ? 'Show All' : 'Hide Completed'}
-          </button>
-        </div>
-        <ul className="tasks">
-          {tasks.map(task => (
-            <Task
-              key={task._id}
-              task={task}
-              onCheckboxClick={toggleChecked}
-              onDeleteClick={deleteTask}
-            />
-          ))}
-        </ul>
+        {user ? (
+          <Fragment>
+            <TaskForm />
+
+            <div className="filter">
+              <button onClick={() => setHideCompleted(!hideCompleted)}>
+                {hideCompleted ? 'Show All' : 'Hide Completed'}
+              </button>
+            </div>
+
+            <ul className="tasks">
+              {tasks.map(task => (
+                <Task
+                  key={task._id}
+                  task={task}
+                  onCheckboxClick={toggleChecked}
+                  onDeleteClick={deleteTask}
+                />
+              ))}
+            </ul>
+          </Fragment>
+        ) : (
+          <LoginForm />
+        )}
       </div>
     </div>
   )

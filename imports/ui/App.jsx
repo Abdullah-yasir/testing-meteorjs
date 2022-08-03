@@ -5,6 +5,14 @@ import { TasksCollection } from '../api/TasksCollection.js'
 import { Task } from './Task.jsx'
 import { TaskForm } from './TaskForm.jsx'
 
+const toggleChecked = ({ _id, isChecked }) => {
+  TasksCollection.update(_id, {
+    $set: {
+      isChecked: !isChecked,
+    },
+  })
+}
+
 export const App = () => {
   const tasks = useTracker(() =>
     TasksCollection.find({}, { sort: { createdAt: -1 } }).fetch()
@@ -15,7 +23,7 @@ export const App = () => {
       <h1>Welcome to Meteor!</h1>
       <TaskForm />
       {tasks.map(task => (
-        <Task key={task._id} task={task} />
+        <Task key={task._id} task={task} onCheckboxClick={toggleChecked} />
       ))}
     </div>
   )

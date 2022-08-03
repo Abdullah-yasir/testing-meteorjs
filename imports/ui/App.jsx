@@ -6,7 +6,9 @@ import { Task } from './Task.jsx'
 import { TaskForm } from './TaskForm.jsx'
 
 export const App = () => {
-  const tasks = useTracker(() => TasksCollection.find({}).fetch())
+  const tasks = useTracker(() =>
+    TasksCollection.find({}, { sort: { createdAt: -1 } }).fetch()
+  )
 
   return (
     <div>

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import { ServiceConfiguration } from 'meteor/service-configuration'
@@ -42,13 +43,8 @@ ServiceConfiguration.configurations.upsert(
   {
     $set: {
       loginStyle: 'popup',
-      clientId: 'c1dba154880cad0732a1', // insert your clientId here
-      secret: '4d5c358cbe3795e952aaca28ce026350f8998999', // insert your secret here
+      clientId: process.env.GITHUB_CLIENT_ID, // insert your clientId here
+      secret: process.env.GITHUB_CLIENT_SECRET, // insert your secret here
     },
-    // $set: {
-    //   loginStyle: 'popup',
-    //   clientId: process.env.GITHUB_CLIENT_ID, // insert your clientId here
-    //   secret: process.env.GITHUB_CLIENT_SECRET, // insert your secret here
-    // },
   }
 )
